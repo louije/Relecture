@@ -1,0 +1,15 @@
+<h1>Authenticate to <%= @service.name %></h1>
+
+<div class="row">
+	<%= form_for @service, as: :auth, method: :post, url: auth_service_path(@service), html: { class: "col-lg-6" } do |f| -%>
+		<div class="form-group">
+		 	<%= f.label :login %>
+		 	<%= f.text_field :login, class: "form-control" %>
+		</div>
+		<div class="form-group">
+		 	<%= f.label :password %>
+		 	<%= f.password_field :password, class: "form-control" %>			
+		</div>
+	 	<%= f.submit "Log in", class: "btn btn-primary" %>
+	<% end -%>
+</div>
