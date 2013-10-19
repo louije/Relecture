@@ -1,11 +1,13 @@
 class InstapaperService
 	include Service
-
 	attr_reader :instapaper, :folder, :login, :password
 
+	CK = Rails.application.config.respond_to?(:instapaper_consumer_key)    ? Rails.application.config.instapaper_consumer_key 	 : ENV['INSTAPAPER_CK']
+	CS = Rails.application.config.respond_to?(:instapaper_consumer_secret) ? Rails.application.config.instapaper_consumer_secret : ENV['INSTAPAPER_CS']
+
 	def initialize(attributes = {})
-		Instapaper.consumer_key    = Rails.application.config.instapaper_consumer_key
-		Instapaper.consumer_secret = Rails.application.config.instapaper_consumer_secret
+		Instapaper.consumer_key    = CK
+		Instapaper.consumer_secret = CS
 
 		if attributes[:oauth_token] and attributes[:oauth_token_secret]
 			@instapaper = Instapaper.client
