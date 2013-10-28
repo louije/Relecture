@@ -1,6 +1,7 @@
 class InstapaperService
 	include Service
-	attr_reader :instapaper, :folder, :login, :password
+	include ServicesHelper
+	attr_reader :instapaper, :password
 
 	CK = Rails.application.config.respond_to?(:instapaper_consumer_key)    ? Rails.application.config.instapaper_consumer_key 	 : ENV['INSTAPAPER_CK']
 	CS = Rails.application.config.respond_to?(:instapaper_consumer_secret) ? Rails.application.config.instapaper_consumer_secret : ENV['INSTAPAPER_CS']
@@ -34,7 +35,7 @@ class InstapaperService
 		bookmarks = @instapaper.bookmarks(folder_id: @folder, limit: 500)
 		Rails.logger.info("Got #{bookmarks.count} bookmarks from folder #{@folder}.")
 		
-		links = bookmarks.map do |b|
+		@links = bookmarks.map do |b|
 			l = Link.new
 			l.url = b.url
 			l.title = b.title
@@ -43,8 +44,17 @@ class InstapaperService
 			l.service_id = b.bookmark_id
 			l
 		end
-		links.sort_by(&:date_read)
-		links
+		@links.sort_by(&:date_read)
+	end
+
+	def random
+		@links ||= bookmarks
+		@links.sample
+	end
+
+	def years_ago
+		@links ||= bookmarks
+		find_years_ago(@links)
 	end
 
 	def available_folders

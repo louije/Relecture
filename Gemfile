@@ -9,7 +9,9 @@ gem 'jquery-rails', '~> 3.0.4'
 gem 'turbolinks'
 gem 'bootstrap-sass', '~> 3.0.0.0', git: 'git://github.com/thomas-mcdonald/bootstrap-sass'
 
-gem 'instapaper'
+gem 'instapaper', '~> 0.3.0'
+gem 'pinboard', git: 'git://github.com/louije/pinboard'
+# gem 'pinboard', path: '/Users/louije/Misc/dev/Gems/pinboard'
 
 group :development do
   gem 'better_errors'

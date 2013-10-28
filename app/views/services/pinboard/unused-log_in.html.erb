@@ -1,0 +1,17 @@
+<h1>Authenticate to <%= @service.name %></h1>
+
+<div class="row">
+	<p class="col-lg-6">
+		As Pinboard does not yet support OAuth, and as we’d rather not store your password, please enter the API token that you can find on your Pinboard <a href="http://pinboard.in/settings/password">password settings</a> page in the form of a <code>username:token</code> pair. This token is safe for us to store, and can be revoked anytime.
+	</p>	
+</div>
+
+<div class="row">
+	<%= form_for @service, as: :auth, method: :post, url: auth_service_path(@service), html: { class: "col-lg-6" } do |f| -%>
+		<div class="form-group">
+		 	<%= f.label :token, "Pinboard API Token" %>
+		 	<%= f.text_field :token, class: "form-control", placeholder: "login:C0FFEEC0FFEE" %>
+		</div>
+	 	<%= f.submit "Log in", class: "btn btn-primary" %>
+	<% end -%>
+</div>

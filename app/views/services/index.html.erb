@@ -4,7 +4,7 @@
 	<div class="available-services col-sm-6">
 		<% @services.each do |s| %>
 			<p class="service-button">
-				<%= link_to "Log in to #{s.to_s.titleize}", log_in_service_path(s), class: "btn btn-default btn-block" %>
+				<%= link_to s.to_s.titleize, service_path(s), class: "btn btn-default btn-block" %>
 			</p>
 		<% end %>
 	</div>	

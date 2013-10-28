@@ -9,6 +9,11 @@ class ServicesController < ApplicationController
 
   def log_in
     @service = service_class.new
+    begin
+      render "services/#{@service.label}/log_in"
+    rescue ActionView::MissingTemplate
+      render "log_in"
+    end
   end
 
   def auth
@@ -25,8 +30,8 @@ class ServicesController < ApplicationController
   def show
     if @service
       @bookmarks = @service.bookmarks(params[:list_options])
-      @random = @bookmarks.sample
-      @years_ago = years_ago(@bookmarks)
+      @random = @service.random
+      @years_ago = @service.years_ago
     else
       redirect_to log_in_service_path(params[:service]), notice: "Please log in."
     end
@@ -44,7 +49,7 @@ class ServicesController < ApplicationController
 
     def load_service_from_session
       s = session[symbol]
-      if s and s.has_key?(:oauth_token) and s.has_key?(:oauth_token_secret)
+      if s
         attempt = service_class.new(s)
         @service = attempt if attempt.authorized?
       end
@@ -53,8 +58,8 @@ class ServicesController < ApplicationController
     def service_class
       begin
         (params[:service].to_s.titleize+"Service").constantize
-      rescue
-        nil
+      rescue NameError
+        not_found
       end
     end
 
