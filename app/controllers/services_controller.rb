@@ -1,10 +1,15 @@
 class ServicesController < ApplicationController
   before_action :load_service_from_session, only: [:show]
 
+  include ApplicationHelper
   include ServicesHelper
 
   def index
-    @services = [:instapaper, :pinboard]
+    @authorized_services = @services.map { |s| load_service(s) }.compact
+    if !@authorized_services.blank?
+      @random = @authorized_services.sample.random
+      @years_ago = @authorized_services.sample.years_ago
+    end
   end
 
   def log_in
@@ -20,9 +25,10 @@ class ServicesController < ApplicationController
     s = session[symbol]
     @service = service_class.new(params[:auth] || s)
     if @service.authorized?
-      session[symbol] = @service.token 
-      redirect_to service_path(params[:service]), notice: "Successfully logged in to #{@service.name}."
+      session[symbol] = @service.token
+      redirect_to service_path(params[:service]), notice: "Successfully logged into #{@service.name}."
     else
+      session[symbol] = nil
       redirect_to log_in_service_path(params[:service]), alert: "Authorization failed."
     end
   end
@@ -38,29 +44,19 @@ class ServicesController < ApplicationController
   end
 
   def log_out
+    name = service_class.new.name
     session[symbol] = nil
+    redirect_to root_path, notice: "Successfully logged out of #{name}"
   end
 
   private
 
-    def symbol
-      "#{params[:service]}_token".to_sym
-    end
-
     def load_service_from_session
-      s = session[symbol]
-      if s
-        attempt = service_class.new(s)
-        @service = attempt if attempt.authorized?
-      end
-    end
-
-    def service_class
-      begin
-        (params[:service].to_s.titleize+"Service").constantize
-      rescue NameError
-        not_found
-      end
+      # s = session[symbol]
+      # if s
+      #   @service = load_service(params[:service], s)
+      # end
+      @service = load_service
     end
 
 end

@@ -36,7 +36,6 @@ module Service
 	end
 
 	def bookmarks(args = nil)
-		warn_unpatched
 		[]
 	end
 

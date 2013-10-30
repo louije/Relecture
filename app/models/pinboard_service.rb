@@ -16,7 +16,7 @@ class PinboardService
 	end
 
 	def authorized?
-		return !!@pinboard.api_token
+		@pinboard and @pinboard.api_token
 	end
 
 	def token
