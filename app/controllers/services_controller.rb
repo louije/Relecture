@@ -8,7 +8,7 @@ class ServicesController < ApplicationController
     @authorized_services = @services.map { |s| load_service(s) }.compact
     if !@authorized_services.blank?
       @random = @authorized_services.sample.random
-      @years_ago = @authorized_services.sample.years_ago
+      @years_ago = @authorized_services.sample.years_ago.sample
     end
   end
 

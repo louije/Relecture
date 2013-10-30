@@ -1,11 +1,34 @@
-<h1>Available services</h1>
+<main class="index">
+	<% if @authorized_services.blank? %>
 
-<div class="row">
-	<div class="available-services col-sm-6">
-		<% @services.each do |s| %>
-			<p class="service-button">
-				<%= link_to s.to_s.titleize, service_path(s), class: "btn btn-default btn-block" %>
+		<div class="jumbotron">
+			<h1>Relecture</h1>
+			<h3>
+				Grab something to reread<br>
+				from the following services:
+			</h3>
+			<p>
+				<% @services.each do |s| %>
+					<%= link_to s.to_s.titleize, service_path(s), class: "btn btn-outline-inverse btn-lg" %>
+				<% end %>
 			</p>
-		<% end %>
-	</div>	
-</div>
+		</div>
+
+	<% else %>
+
+		<div class="available-services">
+			<p>
+				<strong>
+					You’re logged into the following services:
+					<% @authorized_services.each do |s| %>
+						<%= link_to s.name, service_path(s.label), class: "label label-outline-inverse" %>
+					<% end %>
+				</strong>
+			</p>
+		</div>
+
+		<%= render partial: "services/random", 	  object: @random, 	  locals: { show_service: true } if @random %>
+		<%= render partial: "services/years_ago", object: @years_ago, locals: { show_service: true } if !@years_ago.blank? %>
+
+	<% end %>
+</main>

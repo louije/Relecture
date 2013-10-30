@@ -1,1 +1,106 @@
 @import "bootstrap";
+@import "mixins";
+
+$accent: #b40039;
+$toned-down: #620927;
+
+.services-index {
+	background-color: $accent;
+	color: #fff;
+	header.navbar {
+		border-radius: 0;
+	}
+	.jumbotron {
+		background-color: transparent;
+		h3 {
+			margin-bottom: $line-height-computed;
+		}
+	}
+
+	.link-group {
+		margin-bottom: $line-height-computed * 2;
+		.group-title {
+			font-size: 1em;
+			font-weight: 200;
+			border-bottom: solid 1px rgba(255,255,255,.5);
+			padding-bottom: 8px;
+		}
+	}
+	.link-view {
+		font-size: 200%;
+		small {
+			margin-top: .25em;
+			display: block;
+			font-size: 50%;
+			color: $toned-down;
+		}
+		a:link {
+			color: #fff;
+		}
+		a:visited {
+			color: rgba(255,255,255,.75);
+		}
+		a:hover, a:focus, a:active {
+			color: transparentize(#fff, .5);
+			text-decoration: none;
+		}
+	}
+}
+
+.available-services {
+	.label {
+		margin-left: 5px;
+	}
+	margin-bottom: $line-height-computed * 4;
+}
+
+header.navbar {
+	@extend .navbar-default;
+	.services-index & {
+		@extend .navbar-inverse;
+	}
+}
+
+.services-show {
+	.link-group {
+		@extend .panel;
+		@extend .panel-default;
+		header {
+			@extend .panel-heading;
+			h3 {
+				@extend .panel-title;
+			}
+		}
+	}
+	.group-body {
+		@extend .panel-body;
+		p:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.label-outline-inverse, .btn-outline-inverse {
+	color: #fff;
+	background-color: transparent;
+	border: 1px solid #fff;
+	&:hover, &:focus, &:active, &[href]:hover {
+		color: $accent;
+		text-shadow: none;
+		background-color: #fff;
+		border-color: #fff;
+	}
+}
+
+.disappear {
+	@include animation(disappear 1s ease 5s);
+	-webkit-animation-fill-mode: forwards;
+	   -moz-animation-fill-mode: forwards;
+	     -o-animation-fill-mode: forwards;
+		  	  animation-fill-mode: forwards;
+}
+
+@include keyframes(disappear) {
+	0% 	 { opacity: 1; }
+	100% { opacity: 0; height: 0; margin: 0; padding: 0; }
+}

@@ -7,13 +7,28 @@
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
+<body class="<%= "#{params[:controller]}-#{params[:action]}" %>">
 
-<header class="navbar navbar-default" role="navigation">
+<header class="navbar" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/">Relecture</a>
+		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#services-list-nav">
+		    <span class="sr-only">Toggle navigation</span>
+		    <span class="icon-bar"></span>
+		    <span class="icon-bar"></span>
+		    <span class="icon-bar"></span>
+		  </button>
+		  <a class="navbar-brand" href="/">Relecture</a>
 		</div>
+
+		<div class="collapse navbar-collapse" id="services-list-nav">
+		  <ul class="nav navbar-nav navbar-right">
+			  <% @services.each do |s| %>
+			  	<li>
+			  		<%= link_to s.to_s.titleize, service_path(s) %>
+			  	</li>
+			  <% end %>
+		  </ul>
 	</div>
 </header>
 
