@@ -9,12 +9,32 @@ $toned-down: #620927;
 	color: #fff;
 	header.navbar {
 		border-radius: 0;
+		.navbar-toggle, .navbar-collapse {
+			visibility: hidden;
+		}
+	}
+	.alert {
+		background: transparent;
+		color: #fff;
+		border-color: #fff;
 	}
 	.jumbotron {
 		background-color: transparent;
+		h1 {
+			margin-bottom: $line-height-computed / 2;
+		}
 		h3 {
+			margin-top: $line-height-computed / 2;
 			margin-bottom: $line-height-computed;
 		}
+	}
+
+	.intro, .actions {
+		text-align: center;
+	}
+
+	.actions {
+		margin-top: 1em;
 	}
 
 	.link-group {
@@ -45,11 +65,23 @@ $toned-down: #620927;
 			text-decoration: none;
 		}
 	}
+	.btn-link {
+		&:link, &:visited {
+			color: transparentize(#fff, .3);
+		}
+		&:hover, &:active, &:focus {
+			color: #fff;
+		}
+	}
 }
 
 .available-services {
-	.label {
+	margin-right: 1em;
+	.btn {
 		margin-left: 5px;
+	}
+	p {
+		text-align: right;
 	}
 	margin-bottom: $line-height-computed * 4;
 }
@@ -89,6 +121,10 @@ header.navbar {
 		text-shadow: none;
 		background-color: #fff;
 		border-color: #fff;
+	}
+	&.inactive {
+		border-color: transparentize(#fff, .5);
+		color: transparentize(#fff, .5);
 	}
 }
 

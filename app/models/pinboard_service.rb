@@ -35,15 +35,22 @@ class PinboardService
 		@links.sort_by(&:date_read)
 	end
 
-	def random
-		return @links.sample if @links and @links.count > 0
+	def random(num = 1)
+		return @links.sample(num) if @links and @links.count > 0
 		@dates ||= pinboard.dates.keys
-		post_to_link pinboard.get({ dt: @dates.sample }).sample
+		return post_to_link pinboard.get({ dt: @dates.sample }).sample if num == 1
+		
+		links = []
+		num.times do
+			links << post_to_link(pinboard.get({ dt: @dates.sample }).sample)
+		end
+		return links
 	end
 
 	def years_ago
 		@dates ||= pinboard.dates.keys
-		days = @dates.select{ |date| date.match(AGO_REGEX) }
+		today = "#{Time.now.year}-#{Time.now.month}-#{Time.now.day}"
+		days = @dates.select{ |date| !date.include?(today) and date.match(AGO_REGEX) }
 		days.map do |date|
 			pinboard.get({ dt: date }).map { |p| post_to_link p }
 		end.flatten

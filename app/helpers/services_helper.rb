@@ -4,7 +4,9 @@ module ServicesHelper
 
 	def find_years_ago(list)
 		expression = AGO_REGEX
-		list.select { |link| Time.at(link.date_read).to_s.match(expression) }
+		# ago = "-#{Time.now.month}-#{Time.now.day}"
+		today = "#{Time.now.year}-#{Time.now.month}-#{Time.now.day}"
+		list.select { |link| t = Time.at(link.date_read).to_s; !today.in?(t) and t.match(expression) }
 	end
 
 end

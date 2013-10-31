@@ -5,11 +5,7 @@ class ServicesController < ApplicationController
   include ServicesHelper
 
   def index
-    @authorized_services = @services.map { |s| load_service(s) }.compact
-    if !@authorized_services.blank?
-      @random = @authorized_services.sample.random
-      @years_ago = @authorized_services.sample.years_ago.sample
-    end
+    @authorized_services = @services.select { |s| service_authorized? s }
   end
 
   def log_in
@@ -26,7 +22,8 @@ class ServicesController < ApplicationController
     @service = service_class.new(params[:auth] || s)
     if @service.authorized?
       session[symbol] = @service.token
-      redirect_to service_path(params[:service]), notice: "Successfully logged into #{@service.name}."
+      # redirect_to service_path(params[:service]), notice: "Successfully logged into #{@service.name}."
+      redirect_to root_path, notice: "Successfully logged into #{@service.name}."
     else
       session[symbol] = nil
       redirect_to log_in_service_path(params[:service]), alert: "Authorization failed."
@@ -46,7 +43,12 @@ class ServicesController < ApplicationController
   def log_out
     name = service_class.new.name
     session[symbol] = nil
-    redirect_to root_path, notice: "Successfully logged out of #{name}"
+    redirect_to root_path, notice: "Successfully logged out of #{name}."
+  end
+
+  def log_out_all
+    request.reset_session
+    redirect_to root_path, notice: "Successfully logged out of every service."
   end
 
   private

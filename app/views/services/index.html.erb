@@ -1,34 +1,52 @@
-<main class="index">
-	<% if @authorized_services.blank? %>
+<div class="row available-services">
+	<p>
+		<strong>
+			Available services:
+			<% @services.each do |s| %>
+				<% if s.in? @authorized_services %>
+					<%= link_to service_path(s), class: "btn btn-outline-inverse btn-xs" do %>
+						<span class="glyphicon glyphicon-ok"></span>&nbsp;
+						<%= s.to_s.titleize %>
+					<% end %>
+				<% else %>
+					<%= link_to s.to_s.titleize, log_in_service_path(s), class: "btn btn-outline-inverse btn-xs inactive" %>
+				<% end %>
+			<% end %>
+		</strong>
+	</p>
+	<p>
+		<%= link_to "Log out of every service", log_out_services_path, class: "btn btn-link btn-xs" if @authorized_services and @authorized_services.length > 0 %>
+	</p>
+</div>
 
-		<div class="jumbotron">
+<main class="index">
+	<div class="jumbotron">
+		<div class="col-md-6 intro">
 			<h1>Relecture</h1>
 			<h3>
-				Grab something to reread<br>
-				from the following services:
+				a tool for slower reading.
 			</h3>
-			<p>
-				<% @services.each do |s| %>
-					<%= link_to s.to_s.titleize, service_path(s), class: "btn btn-outline-inverse btn-lg" %>
-				<% end %>
-			</p>
 		</div>
-
-	<% else %>
-
-		<div class="available-services">
-			<p>
-				<strong>
-					You’re logged into the following services:
-					<% @authorized_services.each do |s| %>
-						<%= link_to s.name, service_path(s.label), class: "label label-outline-inverse" %>
+		<div class="col-md-6 actions">
+			<% if @authorized_services.blank? %>
+				<h5>
+					Grab something to reread<br>
+					from the following services:
+				</h5>
+				<p>
+					<% @services.each do |s| %>
+						<%= link_to s.to_s.titleize, service_path(s), class: "btn btn-outline-inverse" %>
 					<% end %>
-				</strong>
-			</p>
+				</p>
+			<% else %>
+				<h2>
+					<%= link_to "Give me something to reread", reread_path, class: "btn btn-outline-inverse btn-lg" %>
+				</h2>
+				<p>
+					<%= link_to "Explore past and random links", explore_path, class: "btn btn-link btn-xs" %>
+				</p>
+			<% end %>
 		</div>
+	</div>
 
-		<%= render partial: "services/random", 	  object: @random, 	  locals: { show_service: true } if @random %>
-		<%= render partial: "services/years_ago", object: @years_ago, locals: { show_service: true } if !@years_ago.blank? %>
-
-	<% end %>
 </main>

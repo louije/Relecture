@@ -17,7 +17,7 @@ module ApplicationHelper
   end
 
 	def service_authorized? service
-		return s.authorized? if s = load_service(service)
+		return true if s = load_service(service) and s.authorized?
 	end
 
   def symbol service = nil

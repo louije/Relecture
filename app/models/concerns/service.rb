@@ -39,7 +39,7 @@ module Service
 		[]
 	end
 
-	def random
+	def random(num = 1)
 		nil
 	end
 

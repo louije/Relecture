@@ -1,1 +1,1 @@
-<%= render partial: "group", locals: { title: "Random link", items: [*random], show_service: (defined? show_service && show_service) } %>
+<%= render partial: "services/group", locals: { title: "Random link".pluralize([*random]), items: [*random], show_service: (defined? show_service && show_service) } %>

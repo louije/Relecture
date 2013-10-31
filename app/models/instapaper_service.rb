@@ -47,9 +47,9 @@ class InstapaperService
 		@links.sort_by(&:date_read)
 	end
 
-	def random
+	def random (num = 1)
 		@links ||= bookmarks
-		@links.sample
+		@links.sample(num)
 	end
 
 	def years_ago
