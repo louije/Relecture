@@ -3,7 +3,7 @@ class ReadController < ApplicationController
 	include ApplicationHelper
 
   def jump
-  	redirect_to root_path if @links.blank?
+  	redirect_to root_path and return if @links.blank?
   	redirect_to @links.sample.url
   end
 
@@ -14,10 +14,10 @@ class ReadController < ApplicationController
 
   	def gather_links
   		@authorized_services = @services.map { |s| load_service(s) }.compact
-  		if !@authorized_services.blank?
-  		  @random 	 = @authorized_services.map { |s| s.random(5) }.flatten.sample(5)
-  		  @years_ago = @authorized_services.map { |s| s.years_ago }.flatten
-  		end
+  		return if @authorized_services.blank?
+
+		  @random 	 = @authorized_services.map { |s| s.random(5) }.flatten.sample(5)
+		  @years_ago = @authorized_services.map { |s| s.years_ago }.flatten
   		@links = [*@random] + @years_ago
   	end
 end

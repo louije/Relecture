@@ -16,4 +16,11 @@
 /tmp
 
 Relecture.sublime-workspace
+Relecture.sublime-project
 config/initializers/instapaper.rb
+.powrc
+.rvmrc
+.ruby-gemset
+.ruby-version
+
+

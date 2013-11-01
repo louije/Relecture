@@ -1,5 +1,4 @@
 <h1>Explore</h1>
 
-<%= render partial: "services/random", 	  object: @random, 	  locals: { show_service: true } if @random %>
 <%= render partial: "services/years_ago", object: @years_ago, locals: { show_service: true } if !@years_ago.blank? %>
-
+<%= render partial: "services/random", 	  object: @random, 	  locals: { show_service: true } if @random %>

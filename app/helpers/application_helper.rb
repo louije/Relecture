@@ -4,7 +4,11 @@ module ApplicationHelper
     service ||= params[:service] if params
     attributes ||= session[symbol(service)] || {}
     attempt = service_class(service).new(attributes.dup) # the Pinboard gem deletes the :token key, so we need a dup
-    return attempt if attempt.authorized?
+    begin
+      return attempt if attempt.authorized?
+    rescue Faraday::Error::ConnectionFailed, SocketError => e
+      return false
+    end
   end
 
   def service_class service = nil

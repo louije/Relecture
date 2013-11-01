@@ -1,6 +1,6 @@
 module ServicesHelper
 
-	AGO_REGEX = Regexp.new("^\\d{4}-#{Time.now.month}-#{Time.now.day}")
+	AGO_REGEX = Regexp.new("^\\d{4}-#{Time.now.month.to_s.rjust(2, "0")}-#{Time.now.day.to_s.rjust(2, "0")}")
 
 	def find_years_ago(list)
 		expression = AGO_REGEX
