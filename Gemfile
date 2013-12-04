@@ -7,7 +7,7 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails', '~> 3.0.4'
 gem 'turbolinks'
-gem 'bootstrap-sass', '~> 3.0.0.0', git: 'git://github.com/thomas-mcdonald/bootstrap-sass'
+gem 'bootstrap-sass', '~> 3.0.2.1'
 
 gem 'instapaper', '~> 0.3.0'
 gem 'pinboard', git: 'git://github.com/louije/pinboard'
