@@ -33,6 +33,8 @@ class InstapaperService
 
 		Rails.logger.info('Calling Instapaper...')
 		bookmarks = @instapaper.bookmarks(folder_id: @folder, limit: 500)
+		bookmarks = [] if bookmarks.nil?
+		
 		Rails.logger.info("Got #{bookmarks.count} bookmarks from folder #{@folder}.")
 		
 		@links = bookmarks.map do |b|
